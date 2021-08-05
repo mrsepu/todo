@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
+
+:root {
+    --headerFont: hsl(236, 33%, 92%);
+}
+
+.lightTheme {
+    --bodyBackGround: hsl(236, 33%, 92%); 
+    --itemBackGround: hsl(0, 0%, 98%);
+    --itemFontColor: hsl(235, 19%, 35%);
+    --separatorLine: hsl(236, 33%, 92%);
+    --completeFontColor: hsl(236, 33%, 92%); 
+    --newTodoFontColor: hsl(235, 19%, 35%);
+    --filtersFontColor: hsl(236, 9%, 61%);
+    --footFontColor: hsl(236, 9%, 61%);
+    --bgUrlDesk: url('../images/bg-desktop-light.jpg');
+    --bgUrlMobil: url('../images/bg-mobile-light.jpg');
+}
+
+.darkTheme {
+    --bodyBackGround: hsl(235, 21%, 11%);
+    --itemBackGround: hsl(235, 24%, 19%);
+    --itemFontColor: hsl(236, 33%, 92%);
+    --separatorLine: hsl(233, 14%, 35%);
+    --completeFontColor: hsl(233, 14%, 35%);
+    --newTodoFontColor: hsl(236, 33%, 92%);
+    --filtersFontColor: hsl(234, 11%, 52%);
+    --footFontColor: hsl(233, 14%, 35%);
+    --bgUrlDesk: url('../images/bg-desktop-dark.jpg');
+    --bgUrlMobil: url('../images/bg-mobile-dark.jpg');
+}
+
+body {
+    background: top / contain no-repeat var(--bodyBackGround) var(--bgUrlMobil);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 16px;
+}
+
+@media screen and (min-width: 768px) {
+    body {
+        background: top / contain no-repeat var(--bodyBackGround) var(--bgUrlDesk);
+    }
+}
+
+.container {
+    max-width: 700px;
+}
+
+/* .hide {
+    visibility:hidden;
+} */
+
+.done {
+    color: var(--completeFontColor);
+    text-decoration: line-through;
+}
+
+/* Header */
+
+h1 {
+    padding: 0;
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 20px;
+    color: var(--headerFont);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-transform: uppercase;
+    margin: 25px 0;
+    padding: 0;
+}
+
+/* New todo section */
+.new-todo {
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.new-todo input[type=text]{
+    width: 100%;
+    background-color: inherit;
+    border: 0;
+    color: var(--itemFontColor);
+}
+
+.new-todo input[type=text]:focus-visible {
+    outline: none;
+}
+
+.item-box {
+    background-color: var(--itemBackGround);
+    padding: 15px;
+    color: var(--itemFontColor);
+    display: flex;
+    justify-content: space-between;
+
+}
+
+/* Todo list */
+.new-item {
+    border-bottom: 1px solid var(--separatorLine);
+}
+
+.new-item a {
+    visibility: visible;
+}
+
+@media screen and (min-width: 768px) {
+    .new-item a {
+        visibility: hidden;
+    }
+    .new-item:hover a {
+        visibility: visible;
+    }
+    .new-item:focus a {
+        visibility: visible;
+    }
+}
+
+.new-item:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.new-item label {
+    text-align: justify;
+}
+
+.new-item a {
+    margin-left: 15px;
+}
+
+.list-foot {
+    padding: 0 12px 0 12px;
+}
+
+.list-foot a, .list-foot p {
+    margin: 0;
+    text-decoration: none;
+    color: var(--footFontColor);
+}
+
+.list-foot a:hover {
+    color: var(--itemFontColor)!important;
+}
+
+.list-foot .row div:first-of-type {
+    border-bottom-left-radius: 5px;
+}
+
+.list-foot .row div:nth-of-type(2) {
+    justify-content: flex-end;
+    border-bottom-right-radius: 5px;
+}
+
+.list-foot .row div:nth-of-type(3) {
+    justify-content: space-around;
+    border-bottom-left-radius: 5px;
+    border-radius: 5px;
+}
+
+@media screen and (min-width: 768px) {
+    .list-foot .row div:nth-of-type(3) {
+        border-radius: 0;
+    }
+}
+
+.list-foot .row div:nth-of-type(3) a {
+    color: var(--filtersFontColor);
+    font-weight: 700;
+}
+
+.list-foot > div:last-child {
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* Footer */
+.attribution { 
+    font-size: 11px; 
+    text-align: center; 
+    color: var(--footFontColor);
+}
+.attribution a { 
+    color: hsl(228, 45%, 44%); 
+}
