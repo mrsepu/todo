@@ -2,6 +2,7 @@
 
 :root {
     --headerFont: hsl(236, 33%, 92%);
+    --activeFilter: hsl(220, 98%, 61%);
 }
 
 .lightTheme {
@@ -46,13 +47,13 @@ body {
     max-width: 700px;
 }
 
-/* .hide {
-    visibility:hidden;
-} */
-
 .done {
     color: var(--completeFontColor);
     text-decoration: line-through;
+}
+
+.active {
+    color: var(--activeFilter) !important;
 }
 
 /* Header */
