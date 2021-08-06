@@ -2,12 +2,14 @@ const changeTheme = document.querySelector('#themeToggle');
 const body = document.querySelector('body');
 const newTodo = document.querySelector('.new-todo input');
 const todoList = document.querySelector('.todo-list');
-// const checkboxes = document.querySelectorAll('input[type=checkbox]');
 const itemsLeft = document.querySelector('#itemsLeft');
 const clear = document.querySelector('#clear');
+var all = document.querySelector('#all');
+const active = document.querySelector('#active');
+const completed = document.querySelector('#completed');
 
 //Retrieving saved values when app starts
-displayTodos();
+displayTodos(localStorage.getItem('filter'));
 if(localStorage.getItem('theme') && localStorage.getItem('icon')){
     body.classList.remove('lightTheme');
     body.classList.add(localStorage.getItem('theme'));
@@ -43,7 +45,7 @@ clear.addEventListener('click', (e) => {
             newList[i].num = i+1;
         }
         localStorage.setItem('items', JSON.stringify(newList));
-        displayTodos();
+        displayTodos(localStorage.getItem('filter'));
     } 
 })
 
@@ -51,8 +53,7 @@ clear.addEventListener('click', (e) => {
 newTodo.addEventListener('change', () => {
     let todoText = newTodo.value;
     saveNewTodo(todoText);
-    // displayNewTodo(todoText);
-    displayTodos();
+    displayTodos(localStorage.getItem('filter'));
     newTodo.value = '';
 })
 
@@ -72,9 +73,34 @@ function saveNewTodo(todoText) {
 }
 
 // Displaying items
-function displayTodos() {
+function displayTodos(filter='all') {
     todoList.innerHTML = "";
-    const itemsList = JSON.parse(localStorage.getItem('items')) || [];
+    let itemsList = JSON.parse(localStorage.getItem('items')) || [];
+    
+    if(filter === 'active') {
+        active.classList.add('active');
+        all.classList.remove('active');
+        completed.classList.remove('active');
+    } else if (filter === 'completed') {
+        completed.classList.add('active');
+        active.classList.remove('active');
+        all.classList.remove('active');
+    } else {
+        all.classList.add('active');
+        active.classList.remove('active');
+        completed.classList.remove('active');
+    }
+
+    itemsList = itemsList.filter(item => {
+        if(filter === 'active') {
+            return item.state === 'undone';
+        } else if (filter === 'completed') {
+            return item.state === 'done';
+        } else {
+            return item;
+        }
+    })
+
     for(let i of itemsList) {
         const newItem = document.createElement('div');
         const div = document.createElement('div');
@@ -88,7 +114,6 @@ function displayTodos() {
         delIcon.setAttribute('alt', 'icon-cross');
     
         delButton.setAttribute('href', '');
-        // delButton.classList.add('hide');
         delButton.append(delIcon);
     
         check.setAttribute('type', 'checkbox');
@@ -114,35 +139,6 @@ function displayTodos() {
     }
     updateLeftItems();
 }
-
-// function displayNewTodo(todoText) {
-//     const newItem = document.createElement('div');
-//     const div = document.createElement('div');
-//     const label = document.createElement('label');
-//     const check = document.createElement('input');
-//     const delButton = document.createElement('a');
-//     const delIcon = document.createElement('img');
-
-//     delIcon.setAttribute('src', 'images/icon-cross.svg');
-//     delIcon.setAttribute('alt', 'icon-cross');
-
-//     delButton.setAttribute('href', '');
-//     // delButton.classList.add('hide');
-//     delButton.append(delIcon);
-
-//     check.setAttribute('type', 'checkbox');
-
-//     label.append(check, todoText);
-
-//     div.append(label);
-
-//     newItem.classList.add('new-item', 'item-box');
-//     newItem.append(div, delButton);
-
-//     todoList.append(newItem);
-
-//     updateLeftItems();
-// }
 
 //updating left items
 function updateLeftItems() {
@@ -206,30 +202,28 @@ todoList.addEventListener('click', (e) => {
         }
         localStorage.setItem('items', JSON.stringify(itemsList))
     }
-
-    // if(e.target.type === 'checkbox') {
-    //     console.log(e.target);
-    //     if(e.target.checked) {
-    //         for(let i of itemsList) {
-    //             if(i.num == e.target.closest('.new-item').id) {
-    //                 i.state = 'done';
-    //                 break;
-    //             }
-    //         }
-    //         e.target.parentNode.setAttribute('class', 'done');
-    //     } else {
-    //         for(let i of itemsList) {
-    //             if(i.num == e.target.closest('.new-item').id) {
-    //                 i.state = 'undone';
-    //                 break;
-    //             }
-    //         }
-    //         e.target.parentNode.setAttribute('class', 'undone');
-    //     }
-    //     localStorage.setItem('items', JSON.stringify(itemsList))
-    // }
-    displayTodos();
+    displayTodos(localStorage.getItem('filter'));
 })
 
+// Filters
 
-        
+// All
+all.addEventListener('click', (e) => {
+    e.preventDefault();
+    localStorage.setItem('filter', 'all');
+    displayTodos(localStorage.getItem('filter'));
+})
+
+//Active
+active.addEventListener('click', (e) => {
+    e.preventDefault();
+    localStorage.setItem('filter', 'active');
+    displayTodos(localStorage.getItem('filter'));
+})
+
+//Completed
+completed.addEventListener('click', (e) => {
+    e.preventDefault();
+    localStorage.setItem('filter', 'completed');
+    displayTodos(localStorage.getItem('filter'));
+})
