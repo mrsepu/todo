@@ -56,6 +56,40 @@ body {
     color: var(--activeFilter) !important;
 }
 
+/* Drag and drop */
+
+.todo-list .new-item.selected {
+    transform: scale(1.02) rotate(-1deg);
+    box-shadow: 0px 0px 20px rgba(149, 153, 159, .16);
+}
+
+.todo-list .new-item.dragging {
+    opacity: 0;
+}
+
+.handle {
+    cursor: move;
+    margin-left: 15px;
+    visibility: visible;
+}
+
+.handle img {
+    height: 1.5em;
+    opacity: .5;
+}
+
+@media screen and (min-width: 768px) {
+    .new-item .handle {
+        visibility: hidden;
+    }
+    .new-item:hover .handle {
+        visibility: visible;
+    }
+    .new-item:focus .handle {
+        visibility: visible;
+    }
+}
+
 /* Header */
 
 h1 {
@@ -98,8 +132,6 @@ header {
     padding: 15px;
     color: var(--itemFontColor);
     display: flex;
-    justify-content: space-between;
-
 }
 
 /* Todo list */
@@ -109,6 +141,7 @@ header {
 
 .new-item a {
     visibility: visible;
+    margin-left: auto;
 }
 
 @media screen and (min-width: 768px) {
@@ -130,10 +163,7 @@ header {
 
 .new-item label {
     text-align: justify;
-}
-
-.new-item a {
-    margin-left: 15px;
+    margin-right: 15px;
 }
 
 .list-foot {
