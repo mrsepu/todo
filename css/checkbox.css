@@ -40,14 +40,12 @@
     left: 0;
     height: 25px;
     width: 25px;
-    /* background-color: #eee; */
     border-radius: 50%;
     border: 1px solid var(--checkBorder);
 }
 
-/* On mouse-over, add a grey background color */
+/* On mouse-over, add a border color */
 .contain:hover input ~ .checkmark {
-    /* background-color: #ccc; */
     border: 1px solid var(--checkBg1);
 }
 
@@ -70,8 +68,8 @@
 
 /* Style the checkmark/indicator */
 .contain .checkmark:after {
-    left: 10px;
-    top: 7px;
+    left: 9px;
+    top: 6px;
     width: 5px;
     height: 10px;
     border: solid white;
