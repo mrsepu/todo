@@ -39,7 +39,7 @@ Users should be able to:
 ### Links
 
 - Solution URL: [https://www.frontendmentor.io/solutions/todo-app](https://www.frontendmentor.io/solutions/todo-app-including-drag-and-drop-reordering-and-local-storage-QF63iOF6O)
-- - Live Site URL: [https://mrsepu.github.io/todo/](https://mrsepu.github.io/todo/)
+- Live Site URL: [https://mrsepu.github.io/todo/](https://mrsepu.github.io/todo/)
 
 ## My process
 

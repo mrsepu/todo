@@ -89,31 +89,6 @@ function displayTodos(filter='all') {
     const ord = localStorage.getItem('order') ? localStorage.getItem('order').split(','): "";
 
     itemsList = orderItems(itemsList, ord);
-    console.log(itemsList);
-    
-    if(filter === 'active') {
-        active.classList.add('active');
-        all.classList.remove('active');
-        completed.classList.remove('active');
-    } else if (filter === 'completed') {
-        completed.classList.add('active');
-        active.classList.remove('active');
-        all.classList.remove('active');
-    } else {
-        all.classList.add('active');
-        active.classList.remove('active');
-        completed.classList.remove('active');
-    }
-
-    itemsList = itemsList.filter(item => {
-        if(filter === 'active') {
-            return item.state === 'undone';
-        } else if (filter === 'completed') {
-            return item.state === 'done';
-        } else {
-            return item;
-        }
-    })
 
     for(let i of itemsList) {
         const newItem = document.createElement('div');
@@ -157,6 +132,38 @@ function displayTodos(filter='all') {
         newItem.setAttribute('data-id', i.num)
         newItem.classList.add('new-item', 'item-box');
         newItem.append(div, delButton, move);
+
+        if(filter === 'active') {
+            active.classList.add('active');
+            all.classList.remove('active');
+            completed.classList.remove('active');
+            if(i.state === 'undone') {
+                newItem.classList.add('visible');
+                newItem.classList.remove('invisible');
+            }
+            else {
+                newItem.classList.add('invisible');
+                newItem.classList.remove('visible');
+            } 
+        } else if (filter === 'completed') {
+            completed.classList.add('active');
+            active.classList.remove('active');
+            all.classList.remove('active');
+            if(i.state === 'done') {
+                newItem.classList.add('visible');
+                newItem.classList.remove('invisible');
+            }
+            else {
+                newItem.classList.add('invisible');
+                newItem.classList.remove('visible');
+            } 
+        } else {
+            all.classList.add('active');
+            active.classList.remove('active');
+            completed.classList.remove('active');
+            newItem.classList.add('visible');
+            newItem.classList.remove('invisible');
+        }
     
         todoList.append(newItem);        
     }
@@ -191,11 +198,9 @@ todoList.addEventListener('click', (e) => {
                 deleted = arr.splice(i, 1);
             }
         })     
-        console.log('del', deleted);
         ord.forEach((num, i) => {
             if(num == deleted[0].num)
                 ord.splice(i, 1);
-            console.log(ord);
         })
 
         itemsList.forEach((it) => {
