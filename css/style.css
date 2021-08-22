@@ -57,7 +57,7 @@ body {
 }
 
 .visible {
-    display: block;
+    display:flex;
 }
 
 .invisible {
@@ -120,7 +120,6 @@ header {
 
 /* New todo section */
 .new-todo {
-    margin-bottom: 20px;
     border-radius: 5px;
 }
 
@@ -142,7 +141,16 @@ header {
     display: flex;
 }
 
+.buttons {
+    max-width: 100%;
+    margin-left: 0;
+}
+
 /* Todo list */
+.todo-list {
+    margin-top: 20px;
+}
+
 .new-item {
     border-bottom: 1px solid var(--separatorLine);
 }
@@ -172,6 +180,18 @@ header {
 .new-item label {
     text-align: justify;
     margin-right: 15px;
+}
+
+.List {
+    background-color:#198754;
+    color: #fff;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 0;
+}
+.List label {
+    padding-left: 10px;
+    padding-top: 5px;
 }
 
 .list-foot {
