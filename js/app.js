@@ -1,6 +1,8 @@
 const changeTheme = document.querySelector('#themeToggle');
 const body = document.querySelector('body');
 const newTodo = document.querySelector('.new-todo input');
+const buttons = document.querySelectorAll('.buttons button');
+const buttonsContainer = document.querySelector('.buttons');
 const todoList = document.querySelector('.todo-list');
 const itemsLeft = document.querySelector('#itemsLeft');
 const clear = document.querySelector('#clear');
@@ -57,14 +59,28 @@ clear.addEventListener('click', (e) => {
 })
 
 //Adding new items
-newTodo.addEventListener('change', () => {
-    let todoText = newTodo.value;
-    saveNewTodo(todoText);
-    displayTodos(localStorage.getItem('filter'));
-    newTodo.value = '';
+newTodo.addEventListener('input', (e) => {
+    if(e.target.value != "") {
+        buttonsContainer.classList.remove('invisible');
+        buttonsContainer.classList.add('visible');
+    } else {
+        buttonsContainer.classList.remove('visible');
+        buttonsContainer.classList.add('invisible');
+    }
 })
 
-function saveNewTodo(todoText) {
+for(button of buttons) {
+    button.addEventListener('click', (e) => {
+        let todoText = newTodo.value;
+        saveNewTodo(todoText, e.target.textContent);
+        displayTodos(localStorage.getItem('filter'));
+        newTodo.value = '';
+        buttonsContainer.classList.remove('visible');
+        buttonsContainer.classList.add('invisible');
+    })
+}
+
+function saveNewTodo(todoText, type) {
     const items = JSON.parse(localStorage.getItem('items')) || [];
     if(todoText) {
         const newItem = {};
@@ -74,6 +90,7 @@ function saveNewTodo(todoText) {
         ord.push(newItem.num);
         newItem.text = todoText;
         newItem.state = 'undone';
+        newItem.type = type;
         items.push(newItem);
 
         localStorage.setItem('items', JSON.stringify(items));
@@ -121,17 +138,22 @@ function displayTodos(filter='all') {
 
         move.append(moveImg);
         move.classList.add('handle');
-    
-        label.append(i.text, check, span);
+        
+        if(i.type === 'List')
+            label.append(i.text);
+        else
+            label.append(i.text, check, span);
         label.classList.add(i.state);
         label.classList.add('contain');
     
         div.append(label);
-    
         newItem.setAttribute('id', i.num)
         newItem.setAttribute('data-id', i.num)
-        newItem.classList.add('new-item', 'item-box');
-        newItem.append(div, delButton, move);
+        newItem.classList.add('new-item', 'item-box', i.type);
+        if(i.type === 'List')
+            newItem.append(div, delButton);
+        else
+            newItem.append(div, delButton, move);
 
         if(filter === 'active') {
             active.classList.add('active');
@@ -149,7 +171,7 @@ function displayTodos(filter='all') {
             completed.classList.add('active');
             active.classList.remove('active');
             all.classList.remove('active');
-            if(i.state === 'done') {
+            if(i.state === 'done' || i.type === 'List') {
                 newItem.classList.add('visible');
                 newItem.classList.remove('invisible');
             }
@@ -276,6 +298,7 @@ completed.addEventListener('click', (e) => {
 
 Sortable.create(todoList, {
     handle: '.handle',
+    filter: '.List',
     animation: 150,
     chosenClass: 'selected',
     dragClass: 'dragging',
