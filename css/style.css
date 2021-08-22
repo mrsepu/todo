@@ -57,7 +57,7 @@ body {
 }
 
 .visible {
-    display:flex;
+    display:block;
 }
 
 .invisible {
@@ -77,6 +77,7 @@ body {
 
 .handle {
     cursor: move;
+    margin-top: 3px;
     margin-left: 15px;
     visibility: visible;
 }
@@ -144,6 +145,28 @@ header {
 .buttons {
     max-width: 100%;
     margin-left: 0;
+    display: flex;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    -webkit-transition: all .3s ease .15s;
+    -moz-transition: all .3s ease .15s;
+    -o-transition: all .3s ease .15s;
+    -ms-transition: all .3s ease .15s;
+    transition: all .3s ease .15s;
+}
+
+.buttons.show {
+    height: 40px;
+    opacity: 1;
+}
+
+.buttons button {
+    color: var(--headerFont);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 /* Todo list */
@@ -158,6 +181,8 @@ header {
 .new-item a {
     visibility: visible;
     margin-left: auto;
+    margin-top: 3px;
+    padding-right: 3px;
 }
 
 @media screen and (min-width: 768px) {
@@ -182,16 +207,21 @@ header {
     margin-right: 15px;
 }
 
-.List {
-    background-color:#198754;
-    color: #fff;
+.list {
+    background-color: var(--bodyBackGround);
+    color: var(--itemFontColor);
     text-transform: uppercase;
-    margin: 0;
-    padding: 0;
+    padding: 10px 10px 3px 10px; 
 }
-.List label {
+.list label {
     padding-left: 10px;
     padding-top: 5px;
+    cursor: default;
+}
+
+.list label svg {
+margin-right: 11px;
+margin-left: -4px;
 }
 
 .list-foot {
