@@ -45,7 +45,7 @@ clear.addEventListener('click', (e) => {
         const newOrd = [];
         const ordered = orderItems(listItems, ord);
 
-        const newList = ordered.filter(i => i.state === 'undone');
+        const newList = ordered.filter(i => i.state === 'undone' || i.state === 'list');
         
         for(let i=0; i<newList.length; i++) {
             newList[i].num = i+1;
@@ -61,11 +61,9 @@ clear.addEventListener('click', (e) => {
 //Adding new items
 newTodo.addEventListener('input', (e) => {
     if(e.target.value != "") {
-        buttonsContainer.classList.remove('invisible');
-        buttonsContainer.classList.add('visible');
+        buttonsContainer.classList.add('show');
     } else {
-        buttonsContainer.classList.remove('visible');
-        buttonsContainer.classList.add('invisible');
+        buttonsContainer.classList.remove('show');
     }
 })
 
@@ -75,8 +73,7 @@ for(button of buttons) {
         saveNewTodo(todoText, e.target.textContent);
         displayTodos(localStorage.getItem('filter'));
         newTodo.value = '';
-        buttonsContainer.classList.remove('visible');
-        buttonsContainer.classList.add('invisible');
+        buttonsContainer.classList.remove('show');
     })
 }
 
@@ -89,8 +86,8 @@ function saveNewTodo(todoText, type) {
         newItem.num = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')).length+1 : 1;
         ord.push(newItem.num);
         newItem.text = todoText;
-        newItem.state = 'undone';
-        newItem.type = type;
+        newItem.state = type === 'Add List' ? 'list' : 'undone';
+        newItem.type = type === 'Add List' ? 'list' : 'item';
         items.push(newItem);
 
         localStorage.setItem('items', JSON.stringify(items));
@@ -111,6 +108,7 @@ function displayTodos(filter='all') {
         const newItem = document.createElement('div');
         const div = document.createElement('div');
         const label = document.createElement('label');
+        const em = document.createElement('em');
         const check = document.createElement('input');
         const span = document.createElement('span');
         const move = document.createElement('strong');
@@ -139,10 +137,13 @@ function displayTodos(filter='all') {
         move.append(moveImg);
         move.classList.add('handle');
         
-        if(i.type === 'List')
-            label.append(i.text);
-        else
+        
+        if(i.type === 'list') {
+            em.classList.add('far', 'fa-list-alt');
+            label.append(em, i.text);
+        } else {
             label.append(i.text, check, span);
+        }            
         label.classList.add(i.state);
         label.classList.add('contain');
     
@@ -150,7 +151,7 @@ function displayTodos(filter='all') {
         newItem.setAttribute('id', i.num)
         newItem.setAttribute('data-id', i.num)
         newItem.classList.add('new-item', 'item-box', i.type);
-        if(i.type === 'List')
+        if(i.type === 'list')
             newItem.append(div, delButton);
         else
             newItem.append(div, delButton, move);
@@ -159,7 +160,7 @@ function displayTodos(filter='all') {
             active.classList.add('active');
             all.classList.remove('active');
             completed.classList.remove('active');
-            if(i.state === 'undone') {
+            if(i.state === 'undone' || i.state === 'list') {
                 newItem.classList.add('visible');
                 newItem.classList.remove('invisible');
             }
@@ -171,7 +172,7 @@ function displayTodos(filter='all') {
             completed.classList.add('active');
             active.classList.remove('active');
             all.classList.remove('active');
-            if(i.state === 'done' || i.type === 'List') {
+            if(i.state === 'done' || i.state === 'list') {
                 newItem.classList.add('visible');
                 newItem.classList.remove('invisible');
             }
